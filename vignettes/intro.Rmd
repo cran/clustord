@@ -1,0 +1,14 @@
+---
+title: "Introduction to Clustord"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction to Clustord}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+This is an introduction to the `clustord` package. The package can perform model-based clustering on ordinal or binary data, using the proportional odds model or the ordered stereotype model. The package also has a function to fit a regression model with an ordinal response variable using the ordered stereotype model (other packages can fit the stereotype model for nominal data but do not impose the ordered constraint for ordinal data).
+
+```{r, out.width='20%', fig.align='center',echo=FALSE}
+knitr::include_graphics('versions_phdcomics.png')
+```
