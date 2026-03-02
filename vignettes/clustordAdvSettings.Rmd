@@ -39,15 +39,15 @@ library(clustord)
 df <- read.table("eval_survey.txt")
 colnames(df) <- paste0("Q",1:ncol(df))
 rownames(df) <- paste0("ID",1:nrow(df))
-long.df <- mat2df(df)
-head(long.df)
+long_df <- mat_to_df(df)
+head(long_df)
 ```
 
 # Important algorithm settings
 
 The `clustord()` algorithm is complex, so has many settings, but a handful of them are particularly important to understand for achieving good clustering results.
 
-The key parameters are `EMcycles` and `startEMcycles` inside the `EM.control` argument, and the `nstarts` argument. All of these are related.
+The key parameters are `maxiter` and `startmaxiter` inside the `control_EM` argument, and the `nstarts` argument. All of these are related.
 
 The EM algorithm works by iteratively improving on the parameter estimates and estimated cluster memberships. It has to start with some estimates, but it is known to sometimes be sensitive to these initial estimates. It can, therefore, get stuck near a set of parameter estimates that are better than other similar values, but which are not the best.
 
@@ -57,38 +57,38 @@ One simple way that the algorithm gets around this is to test multiple different
 
 The default number of starting points is 5. If you have only 2 or 3 clusters, and you're fitting cluster-only models, that will probably be enough. But if you are using the model with individual row/column effects and there are a lot of individual rows or columns, and especially if you are fitting interaction terms, then it would be a good idea to increase the number of random starts to 10 or 20.
 
-## `EMcycles` and `startEMcycles`
+## `maxiter` and `startmaxiter`
 
-`EMcycles`, one of the entries in the `EM.control` argument, is the number of EM iterations. In the examples above, we checked each time whether the EM algorithm had converged **before** looking at the rest of the output. If the algorithm has not converged, try running it with more random starts, or running it again to use different random starts, or if you've used a random seed rerun it with a different seed.
+`maxiter`, one of the entries in the `control_EM` argument, is the number of EM iterations. In the examples above, we checked each time whether the EM algorithm had converged **before** looking at the rest of the output. If the algorithm has not converged, try running it with more random starts, or running it again to use different random starts, or if you've used a random seed rerun it with a different seed.
 
 But if you've already tried quite a few different random starts and/or different random seeds and you still can't get it to converge, then try increasing the number of iterations, because lack of convergence means that it hit the upper limit on the number of iterations before it reached convergence.
 
-The default number of `EMcycles` is 50, so you could try 100, for example.
+The default number of `maxiter` is 50, so you could try 100, for example.
 
-`startEMcycles` is another setting in the `EM.control` argument, and this controls the number of EM iterations that the algorithm goes through for each random start. This is 5 by default, and it does **not** have to be very high. It takes a while for the EM algorithm to reach convergence, but it takes very few iterations for the algorithm to distinguish between different starting points. The differences between starting points are usually much bigger than the improvement that can be achieved in a few iterations. 
+`startmaxiter` is another setting in the `control_EM` argument, and this controls the number of EM iterations that the algorithm goes through for each random start. This is 5 by default, and it does **not** have to be very high. It takes a while for the EM algorithm to reach convergence, but it takes very few iterations for the algorithm to distinguish between different starting points. The differences between starting points are usually much bigger than the improvement that can be achieved in a few iterations. 
 
-The default number of `startEMcycles` is 5, but if you are using lots of random starts, e.g. at least 20, then you may want to change this value **down** to 2 or 3, for example, to save a bit of computing time.
+The default number of `startmaxiter` is 5, but if you are using lots of random starts, e.g. at least 20, then you may want to change this value **down** to 2 or 3, for example, to save a bit of computing time.
 
-If you want to set `EMcycles` or `startEMcycles`, you have to input them as part of the `EM.control` argument, which is a list object. The `EM.control` list has other settings in it by default, but you do **not** have to set these if you don't want to; you can simply set the ones you want. This works the same way that the `control` argument in R works.
+If you want to set `maxiter` or `startmaxiter`, you have to input them as part of the `control_EM` argument, which is a list object. The `control_EM` list has other settings in it by default, but you do **not** have to set these if you don't want to; you can simply set the ones you want. This works the same way that the `control` argument in R works.
 
 So, for example, you can run `clustord()` with additional random starts and for fewer starting iterations and more main iterations than the defaults:
 
 ```{r, eval=FALSE}
-fit <- clustord(Y ~ ROWCLUST + COL, model="POM", nclus.row=2, long.df=long.df,
-                EM.control=list(startEMcycles=2, EMcycles=100), nstarts=10)
+fit <- clustord(Y ~ ROWCLUST + COL, model="POM", RG=2, long_df=long_df,
+                control_EM=list(startmaxiter=2, maxiter=100), nstarts=10)
 ```
 
 # Advanced algorithm settings
 
 # Convergence and stopping conditions
 
-optim.control control list for the \texttt{optim} call within the M step of the
+control_optim control list for the \texttt{optim} call within the M step of the
 EM algorithm. See the control list Details in the \texttt{optim} manual for more
 info.
 Please note that although \texttt{optim}, by default, uses \texttt{pgtol=0} and
 \texttt{factr=1e7} in the L-BFGS-B method, \texttt{clustord}, by default, alters
 these to \texttt{pgtol=1e-4} and \texttt{factr=1e11}, but you can use this
-\texttt{optim.control} argument in \texttt{clustord} to revert them to the
+\texttt{control\_optim} argument in \texttt{clustord} to revert them to the
 defaults if you want. The reason for the change is that the chosen values in
 \texttt{clustord} reduce the tolerance on the log-likelihood function
 optimization in order to speed up the algorithm, and because the log-likelihood

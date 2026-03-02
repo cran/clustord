@@ -12,10 +12,10 @@ library(clustord)
 df <- read.table("eval_survey.txt")
 colnames(df) <- paste0("Q",1:ncol(df))
 rownames(df) <- paste0("ID",1:nrow(df))
-long.df <- mat2df(df)
-head(long.df)
+long_df <- mat_to_df(df)
+head(long_df)
 
 ## ----eval=FALSE---------------------------------------------------------------
-# fit <- clustord(Y ~ ROWCLUST + COL, model="POM", nclus.row=2, long.df=long.df,
-#                 EM.control=list(startEMcycles=2, EMcycles=100), nstarts=10)
+# fit <- clustord(Y ~ ROWCLUST + COL, model="POM", RG=2, long_df=long_df,
+#                 control_EM=list(startmaxiter=2, maxiter=100), nstarts=10)
 
