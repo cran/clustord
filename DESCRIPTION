@@ -1,8 +1,8 @@
 Package: clustord
 Type: Package
 Title: Cluster Ordinal Data via Proportional Odds or Ordered Stereotype
-Version: 2.0.0
-Date: 2026-03-02
+Version: 2.0.1
+Date: 2026-03-03
 Authors@R: c(
     person(given = "Louise", 
            family = "McMillan", 
@@ -44,7 +44,7 @@ Encoding: UTF-8
 RoxygenNote: 7.3.2
 VignetteBuilder: knitr, formatR
 NeedsCompilation: yes
-Packaged: 2026-03-02 01:12:57 UTC; LFM
+Packaged: 2026-03-03 07:03:38 UTC; LFM
 Author: Louise McMillan [aut, cre, cph] (ORCID:
     <https://orcid.org/0000-0002-0536-8563>),
   Daniel Fernández Martínez [aut] (ORCID:
@@ -58,4 +58,4 @@ Author: Louise McMillan [aut, cre, cph] (ORCID:
     methods derived by Louise McMillan from MASS package polr function
     by Venables and Ripley)
 Repository: CRAN
-Date/Publication: 2026-03-02 03:30:02 UTC
+Date/Publication: 2026-03-03 08:40:14 UTC
